@@ -1,0 +1,91 @@
+<!--
+ - Created by aafanevich on 6/20/2019.
+ -->
+
+<apex:page id="ProductOrderPage" controller="ProductOrderPageController" lightningStylesheets="true" docType="html-5.0">
+    <apex:slds />
+    <apex:messages styleClass="" />
+    <apex:form id="form">
+        <apex:outputPanel styleClass="slds-align_absolute-center" layout="block">
+            <br/>
+            <br/>
+        </apex:outputPanel>
+        <apex:outputPanel styleClass="slds-align_-center slds-grid slds-wrap" layout="block">
+
+            <apex:outputPanel styleClass="slds-col slds-size_1-of-12 slds-text-align_center" layout="block">
+            </apex:outputPanel>
+            <apex:outputPanel styleClass="slds-col slds-size_4-of-12 slds-text-align_right" layout="block">
+                <apex:outputPanel styleClass="slds-m-vertical_x-large" layout="block">
+                    <apex:outputText styleClass="slds-text-heading_medium" value="Contact Information"/>
+                </apex:outputPanel>
+                <apex:outputPanel styleClass="slds-m-bottom_x-small" layout="block">
+                    <apex:outputText styleClass="slds-text-heading_small slds-text-title_bold" value="Email: "/>
+                    <apex:input style="width:50%" styleClass="slds-input" value="{!email}" type="email"/>
+                </apex:outputPanel>
+                <apex:outputPanel styleClass="slds-m-bottom_x-small" layout="block">
+                    <apex:outputText styleClass="slds-text-heading_small slds-text-title_bold" value="First Name: "/>
+                    <apex:inputText style="width:50%" styleClass="slds-input" value="{!firstName}"/>
+                </apex:outputPanel>
+                <apex:outputPanel styleClass="slds-m-bottom_x-small" layout="block">
+                    <apex:outputText styleClass="slds-text-heading_small slds-text-title_bold" value="Last Name: "/>
+                    <apex:inputText style="width:50%" styleClass="slds-input" value="{!lastName}"/>
+                </apex:outputPanel>
+            </apex:outputPanel>
+            <apex:outputPanel styleClass="slds-col slds-size_2-of-12 slds-text-align_center" layout="block">
+            </apex:outputPanel>
+            <apex:outputPanel styleClass="slds-col slds-size_4-of-12 slds-text-align_left" id="productInfo">
+                <apex:outputPanel styleClass="slds-m-vertical_x-large" layout="block">
+                    <apex:outputText styleClass="slds-text-heading_medium" value="Product Information"/>
+                </apex:outputPanel>
+                <apex:outputPanel styleClass="slds-m-bottom_x-small" layout="block">
+                    <apex:outputText styleClass="slds-text-align_right slds-text-heading_small slds-text-title_bold" value="Product Name: "/>
+                    <br/>
+                    <apex:outputText styleClass="slds-text-align_left slds-text-heading_small" value="{!product.Name}"/>
+                </apex:outputPanel>
+                <apex:outputPanel styleClass="slds-m-bottom_x-small" layout="block">
+                    <apex:outputText styleClass="slds-text-align_right slds-text-heading_small slds-text-title_bold" value="Cost: "/>
+                    <br/>
+                    <apex:outputText styleClass="slds-text-align_left slds-text-heading_small"
+                                     value="{!product.Unit_Price__c} $"/>
+                </apex:outputPanel>
+                <apex:outputPanel styleClass="slds-m-bottom_x-small" layout="block">
+                    <apex:outputText styleClass="slds-text-align_right slds-text-heading_small slds-text-title_bold"
+                                     value="Units Available: "/>
+                    <br/>
+                    <apex:outputText styleClass="slds-text-align_left slds-text-heading_small"
+                                     value="{!product.Units_Available__c} unit(s)"/>
+                </apex:outputPanel>
+                <apex:outputPanel styleClass="slds-m-bottom_x-small" layout="block" id="blockInput">
+                    <apex:outputText styleClass="slds-text-align_right slds-text-heading_small slds-text-title_bold" value="Units Count: "/>
+                    <apex:actionFunction name="countTotalPrice"
+                                         action="{!refreshTotalOrderPrice}"
+                                         reRender="totalAmountBlock">
+                        <apex:param value="" name="myParam"/>
+                    </apex:actionFunction>
+                    <apex:input id="input" html-min="0" style="width:25%;" styleClass="slds-text-align_left slds-input" value="{!totalOrderPrice}"
+                                    type="number" onchange="countPrice(this.value)" rendered="{!IF(product.Units_Available__c > 0, true, false)}"/>
+                </apex:outputPanel>
+                <apex:outputPanel styleClass="slds-m-bottom_x-small" layout="block" id="totalAmountBlock">
+                    <apex:outputText styleClass="slds-text-align_right slds-text-heading_small slds-text-title_bold" value="Total Amount: "/>
+                    <br/>
+                    <apex:outputText styleClass="slds-text-align_left slds-text-heading_small" id="total"
+                                     value="{!IF((totalOrderPrice != null), totalOrderPrice, '')} {!IF((totalOrderPrice != null), '$', '')}"/>
+                </apex:outputPanel>
+            </apex:outputPanel>
+            <apex:outputPanel styleClass="slds-col slds-size_1-of-12 slds-text-align_center" layout="block">
+            </apex:outputPanel>
+            <apex:outputPanel styleClass="slds-align_absolute-center" layout="block">
+                <apex:commandButton styleClass="slds-button slds-button_neutral"
+                                    value="{!$Label.ProductsSinglePage_Button_ToShopping}" action="{!toShoppingButton}"/>
+                <apex:commandButton styleClass="slds-button slds-button_brand" value="{!$Label.ProductsSinglePage_Button_Buy}"
+                                    action="{!buyButton}"/>
+            </apex:outputPanel>
+        </apex:outputPanel>
+    </apex:form>
+    <script>
+    function countPrice(myParam) {
+            countTotalPrice(myParam);
+        }
+
+    </script>
+</apex:page>

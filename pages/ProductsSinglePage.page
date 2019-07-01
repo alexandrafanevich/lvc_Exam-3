@@ -1,0 +1,64 @@
+<!--
+ - Created by aafanevich on 6/20/2019.
+ -->
+
+<!--<apex:page id="ProductsSinglePage" controller="ProductsSinglePageController" lightningStylesheets="true">-->
+<apex:page id="ProductsSinglePage" controller="ProductsListPageController" lightningStylesheets="true">
+    <apex:slds />
+    <apex:form style="width:85%">
+        <apex:outputPanel styleClass="slds-align_absolute-center slds-grid slds-wrap" layout="block">
+            <apex:outputPanel styleClass="slds-col slds-size_1-of-1 slds-text-align_center">
+                <apex:outputText styleClass="slds-text-heading_medium" value="{!productDetail.Name}"/>
+                <br/>
+                <br/>
+            </apex:outputPanel>
+            <apex:outputPanel styleClass="slds-col slds-size_1-of-2 slds-text-align_center" layout="block">
+                <apex:image width="400" value="{!productDetail.Image_Url__c}"/>
+            </apex:outputPanel>
+            <apex:outputPanel styleClass="slds-col slds-size_1-of-2 slds-text-align_left" layout="block">
+
+                <apex:outputPanel layout="block">
+                    <apex:outputText styleClass="slds-text-title" value="{!$Label.ProductsSinglePage_Title_Amount}"/>
+                    <br/>
+                    <apex:outputText styleClass="slds-text-heading_small"
+                                     value="{!productDetail.Units_Available__c}"/>
+                    <br/>
+                    <br/>
+                </apex:outputPanel>
+                <apex:outputPanel layout="block">
+                    <apex:outputText styleClass="slds-text-title" value="{!$Label.ProductsSinglePage_Title_Cost}"/>
+                    <br/>
+                    <apex:outputText styleClass="slds-text-heading_small"
+                                     value="{!productDetail.Unit_Price__c} $"/>
+                    <br/>
+                    <br/>
+                </apex:outputPanel>
+                <apex:outputPanel layout="block">
+                    <apex:outputText styleClass="slds-text-title" value="{!$Label.ProductsSinglePage_Title_Title}"/>
+                    <br/>
+                    <apex:outputText styleClass="slds-text-heading_small" value="{!productDetail.Name}"/>
+                    <br/>
+                    <br/>
+                </apex:outputPanel>
+
+                <apex:outputPanel layout="block">
+
+                    <apex:outputText styleClass="slds-text-title" value="{!$Label.ProductsSinglePage_Title_Description}"/>
+                    <br/>
+                    <apex:outputText styleClass="slds-text-heading_small"
+                                     value="{!productDetail.Product_Description__c}"/>
+                    <br/>
+                    <br/>
+                </apex:outputPanel>
+
+            </apex:outputPanel>
+
+            <apex:outputPanel styleClass="slds-align_absolute-center" layout="block">
+                <apex:commandButton styleClass="slds-button slds-button_neutral"
+                                    value="{!$Label.ProductsSinglePage_Button_ToShopping}" action="{!toShoppingButton}"/>
+                <apex:commandButton styleClass="slds-button slds-button_brand" value="{!$Label.ProductsSinglePage_Button_Buy}"
+                                    action="{!orderPageReference}"/>
+            </apex:outputPanel>
+        </apex:outputPanel>
+    </apex:form>
+</apex:page>

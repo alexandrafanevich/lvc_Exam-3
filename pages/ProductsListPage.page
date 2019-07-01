@@ -1,0 +1,60 @@
+<!--
+ - Created by aafanevich on 6/20/2019.
+ -->
+
+<apex:page id="ProductsListPage" controller="ProductsListPageController" lightningStylesheets="true">
+    <apex:slds />
+    <apex:form style="width:85%, position:absolute">
+        <apex:pageBlock title="{!$Label.Products_Page_Title}">
+            <apex:pageBlockTable styleClass="slds-table_cell-buffer" value="{!productList}" var="prod" width="100%">
+                <apex:column headerValue="{!$Label.Products_Page_Image_Header_Name}" style="width:130px" headerClass="slds-text-heading_small">
+                    <apex:image styleClass="slds-p-right_large" value="{!prod.Image_Url__c}"/>
+                </apex:column>
+                <apex:column width="20%">
+                    <apex:commandLink styleClass="slds-text-link slds-text-heading_small" action="{!detailPageReference}" target="_blank">
+                        {!prod.Name}
+                        <apex:param name="productIdParam" value="{!prod.Id}" assignTo="{!productId}"/>
+                    </apex:commandLink>
+<!--                    <apex:outputLink styleClass="slds-text-link slds-text-heading_small"-->
+<!--                                     value="/apex/ProductsSinglePage?Id={!prod.Id}" target="_blank">-->
+<!--                        {!prod.Name}-->
+<!--                    </apex:outputLink>-->
+                </apex:column>
+                <apex:column headerValue="{!$Label.Products_Page_Name_Header_Title}" headerClass="slds-text-heading_small">
+                    <apex:outputText styleClass="slds-text-heading_small" value="{!prod.Name}"/>
+                </apex:column>
+                <apex:column headerValue="{!$Label.Products_Page_Description_Header_Title}" headerClass="slds-text-heading_small">
+
+                    <apex:outputText styleClass="slds-text-heading_small" value="
+                    {!IF(LEN(prod.Product_Description__c) > 100, LEFT(prod.Product_Description__c, 100), prod.Product_Description__c)}
+                    ">
+
+                    </apex:outputText>
+<!--                    <apex:outputLink styleClass="slds-text-link slds-text-heading_small"-->
+<!--                                     value="/apex/ProductsSinglePage?Id={!prod.Id}" target="_blank">-->
+<!--                        more-->
+<!--                    </apex:outputLink>-->
+                    <apex:commandLink styleClass="slds-text-link slds-text-heading_small" action="{!detailPageReference}"
+                                      target="_blank" rendered="{!LEN(prod.Product_Description__c) > 100}">
+                        more...
+                        <apex:param name="productIdParam" value="{!prod.Id}" assignTo="{!productId}"/>
+                    </apex:commandLink>
+                </apex:column>
+                <apex:column style="width:20px"/>
+                <apex:column headerValue="{!$Label.Products_Page_Cost_Header_Title}" style="width:90px" value="{!prod.Unit_Price__c}"
+                             headerClass="slds-text-heading_small"/>
+                <apex:column >
+<!--                    <apex:outputLink styleClass="slds-button slds-button_brand slds-p-horizontal_medium"-->
+<!--                                     value="/apex/ProductOrderPage?Id={!prod.Id}&returnPage=ProductListPage">-->
+<!--                        Buy-->
+<!--                    </apex:outputLink>-->
+                    <apex:commandLink styleClass="slds-button slds-button_brand slds-p-horizontal_medium"
+                                      action="{!orderPageReference}">
+                        {!$Label.ProductsSinglePage_Button_Buy}
+                        <apex:param name="productIdParam" value="{!prod.Id}" assignTo="{!productId}"/>
+                    </apex:commandLink>
+                </apex:column>
+            </apex:pageBlockTable>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>
